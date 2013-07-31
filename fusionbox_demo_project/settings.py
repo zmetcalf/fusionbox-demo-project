@@ -100,6 +100,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "mezzanine.core.request.CurrentRequestMiddleware",
+    "mezzanine.core.middleware.TemplateForDeviceMiddleware",
+    "mezzanine.core.middleware.TemplateForHostMiddleware",
+    "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
+    # Uncomment the following if using any of the SSL settings:
+    # "mezzanine.core.middleware.SSLRedirectMiddleware",
+    "widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware",
+    "mezzanine.pages.middleware.PageMiddleware",
+    "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    "django.middleware.transaction.TransactionMiddleware",
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -115,12 +125,15 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.comments', # CommandError without this: One or more models did not validate: generic.threadedcomment: 'comment_ptr' has a relation with model <class 'django.contrib.comments.models.Comment'>, which has either not been installed or is abstract.
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+
+    'grappelli',
 
     "mezzanine.boot",
     "mezzanine.conf",
@@ -157,6 +170,25 @@ INSTALLED_APPS = (
     'widgy.contrib.urlconf_include',
     'sorl.thumbnail',
 )
+
+PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
+PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
+
+GRAPPELLI_INSTALLED = True # fixed error - AttributeError: 'Settings' object has no attribute 'GRAPPELLI_INSTALLED'
+
+OPTIONAL_APPS = (
+    PACKAGE_NAME_FILEBROWSER,
+    PACKAGE_NAME_GRAPPELLI,
+)
+
+WIDGY_MEZZANINE_SITE = 'fusionbox_demo_project.widgy.widgy_site'
+
+# TODO - Demo url needs work - fixed error: ImproperlyConfigured: URLCONF_INCLUDE_CHOICES setting should be a list of choices of urls modules
+URLCONF_INCLUDE_CHOICES = (
+    ('fusionbox_demo_project.urls', 'Demo url'),
+)
+
+TESTING = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
