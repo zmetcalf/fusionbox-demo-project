@@ -2,3 +2,7 @@
 *.pot
 *.pyc
 local_settings.py
+/.c9revisions
+/django-backupdb
+/django-widgy
+demo_sql
