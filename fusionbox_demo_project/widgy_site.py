@@ -1,6 +1,6 @@
 from widgy.site import WidgySite
 
-class WidgySite(WidgySite):
+class FusionboxDemoProject(WidgySite):
     pass
 
 site = WidgySite()

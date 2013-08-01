@@ -1,10 +1,15 @@
 # Django settings for fusionbox_demo_project project.
+import imp
+import os.path
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 from mezzanine.utils.conf import set_dynamic_settings
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -64,7 +69,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_PATH, '..', "static")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -75,6 +80,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'public'),
 )
 
 # List of finder classes that know how to find static files in
@@ -152,16 +158,44 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
     
+    'compressor',
     'fusionbox.core',
+    'scss',
+    'sorl.thumbnail',
+    'south',
 )
 
-WIDGY_MEZZANINE_SITE = 'demo.widgy_site.site'
+ADMIN_MENU_ORDER = [
+    ('Widgy', (
+        'pages.Page',
+        'page_builder.Callout',
+        'form_builder.Form',
+        ('Review queue', 'review_queue.ReviewedVersionCommit'),
+    )),
+]
+
+WIDGY_MEZZANINE_SITE = 'fusionbox_demo_project.widgy_site.site'
+
+URLCONF_INCLUDE_CHOICES = (
+)
 
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
 PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
+WIDGY_ROOT = imp.find_module('widgy')[1]
 
+SCSS_IMPORTS = (
+    os.path.join(STATICFILES_DIRS[0], 'css'),
+    os.path.join(WIDGY_ROOT, 'static', 'widgy', 'css'),
+)
+
+COMPRESS_ENABLED = True
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'python -mscss.tool -C %s' %
+     ' '.join(['-I "%s"' % d for d in SCSS_IMPORTS])
+     )
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
