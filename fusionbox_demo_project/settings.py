@@ -1,4 +1,7 @@
 # Django settings for fusionbox_demo_project project.
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
+from mezzanine.utils.conf import set_dynamic_settings
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -92,6 +95,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'mezzanine.conf.context_processors.settings',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -100,16 +107,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "mezzanine.core.request.CurrentRequestMiddleware",
-    "mezzanine.core.middleware.TemplateForDeviceMiddleware",
-    "mezzanine.core.middleware.TemplateForHostMiddleware",
-    "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
-    # Uncomment the following if using any of the SSL settings:
-    # "mezzanine.core.middleware.SSLRedirectMiddleware",
-    "widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware",
-    "mezzanine.pages.middleware.PageMiddleware",
-    "mezzanine.core.middleware.FetchFromCacheMiddleware",
-    "django.middleware.transaction.TransactionMiddleware",
+    'mezzanine.core.request.CurrentRequestMiddleware',
+    'mezzanine.core.middleware.TemplateForDeviceMiddleware',
+    'mezzanine.core.middleware.TemplateForHostMiddleware',
+    'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
+    'mezzanine.pages.middleware.PageMiddleware',
+    'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -125,70 +128,40 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django.contrib.comments', # CommandError without this: One or more models did not validate: generic.threadedcomment: 'comment_ptr' has a relation with model <class 'django.contrib.comments.models.Comment'>, which has either not been installed or is abstract.
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-
-    'grappelli',
-
-    "mezzanine.boot",
-    "mezzanine.conf",
-    "mezzanine.core",
-    "mezzanine.generic",
-    "mezzanine.blog",
-    "mezzanine.forms",
-    "mezzanine.pages",
-    "mezzanine.galleries",
-    "mezzanine.twitter",
-    "mezzanine.accounts",
-    "mezzanine.mobile",
+    
+    'mezzanine.boot',
+    'mezzanine.conf',
+    'mezzanine.core',
+    'mezzanine.generic',
+    'mezzanine.pages',
+    'django.contrib.comments',
+    'filebrowser_safe',
+    'grappelli_safe',
     
     'widgy',
     'widgy.contrib.page_builder',
     'widgy.contrib.form_builder',
     'widgy.contrib.widgy_mezzanine',
-    'widgy.contrib.widgy_i18n',
-    'widgy.contrib.review_queue',
-    "django.contrib.admin",
-
-
-    # standard fusionbox apps
-    'debug_toolbar',
-    'compressor',
-    'fusionbox.core',
-    'south',
-    'django_extensions',
-    'backupdb',
-
-    # widgy apps
+    'widgy.contrib.urlconf_include',
     'filer',
     'easy_thumbnails',
-    'widgy.contrib.urlconf_include',
-    'sorl.thumbnail',
+    
+    'fusionbox.core',
 )
+
+WIDGY_MEZZANINE_SITE = 'demo.widgy_site.site'
 
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
 PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
+ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
-GRAPPELLI_INSTALLED = True # fixed error - AttributeError: 'Settings' object has no attribute 'GRAPPELLI_INSTALLED'
 
-OPTIONAL_APPS = (
-    PACKAGE_NAME_FILEBROWSER,
-    PACKAGE_NAME_GRAPPELLI,
-)
-
-WIDGY_MEZZANINE_SITE = 'fusionbox_demo_project.widgy.widgy_site'
-
-# TODO - Demo url needs work - fixed error: ImproperlyConfigured: URLCONF_INCLUDE_CHOICES setting should be a list of choices of urls modules
-URLCONF_INCLUDE_CHOICES = (
-    ('fusionbox_demo_project.urls', 'Demo url'),
-)
-
-TESTING = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -218,3 +191,6 @@ LOGGING = {
         },
     }
 }
+# at the very bottom of settings
+
+set_dynamic_settings(globals())
