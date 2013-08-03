@@ -3,8 +3,10 @@
 *.pyc
 local_settings.py
 /.c9revisions
+/CACHE
 /django-backupdb
 /django-fusionbox
 /django-widgy
+/media
 /mezzanine
 demo_sql

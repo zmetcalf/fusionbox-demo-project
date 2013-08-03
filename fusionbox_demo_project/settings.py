@@ -2,8 +2,6 @@
 import imp
 import os.path
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
 from mezzanine.utils.conf import set_dynamic_settings
 
 DEBUG = True
@@ -58,12 +56,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '..', 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -86,6 +84,7 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
+    'compressor.finders.CompressorFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
@@ -101,7 +100,15 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
     'mezzanine.conf.context_processors.settings',
 )
 
@@ -118,7 +125,7 @@ MIDDLEWARE_CLASSES = (
     'mezzanine.core.middleware.TemplateForHostMiddleware',
     'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
     'mezzanine.pages.middleware.PageMiddleware',
-    'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
+    #'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -130,6 +137,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -154,15 +162,15 @@ INSTALLED_APPS = (
     'widgy.contrib.page_builder',
     'widgy.contrib.form_builder',
     'widgy.contrib.widgy_mezzanine',
-    'widgy.contrib.urlconf_include',
+    
     'filer',
     'easy_thumbnails',
-    
     'compressor',
     'fusionbox.core',
     'scss',
     'sorl.thumbnail',
     'south',
+    'cachebuster',
 )
 
 ADMIN_MENU_ORDER = [
@@ -176,12 +184,17 @@ ADMIN_MENU_ORDER = [
 
 WIDGY_MEZZANINE_SITE = 'fusionbox_demo_project.widgy_site.site'
 
-URLCONF_INCLUDE_CHOICES = (
-)
-
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
 PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
+TESTING = False
+GRAPPELLI_INSTALLED = True
+
+# Set Sorl Thumbnailer to png to preserve transparent backgrounds
+THUMBNAIL_FORMAT = 'PNG'
+
+# Set the site title in Grappelli
+GRAPPELLI_ADMIN_TITLE = 'Fusionbox Demo Project Admin Center'
 
 WIDGY_ROOT = imp.find_module('widgy')[1]
 
@@ -194,7 +207,7 @@ COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'python -mscss.tool -C %s' %
      ' '.join(['-I "%s"' % d for d in SCSS_IMPORTS])
-     )
+     ),
 )
 
 # A sample logging configuration. The only tangible logging
