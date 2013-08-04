@@ -5,6 +5,7 @@ local_settings.py
 /.c9revisions
 /CACHE
 /django-backupdb
+/django-debug-toolbar
 /django-fusionbox
 /django-widgy
 /media

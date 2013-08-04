@@ -126,6 +126,7 @@ MIDDLEWARE_CLASSES = (
     'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
     'mezzanine.pages.middleware.PageMiddleware',
     #'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -171,6 +172,10 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'south',
     'cachebuster',
+    
+    'debug_toolbar',
+    
+    'test_form',
 )
 
 ADMIN_MENU_ORDER = [
@@ -189,6 +194,8 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 TESTING = False
 GRAPPELLI_INSTALLED = True
+
+INTERNAL_IPS = ('127.0.0.1',) #C9 detected 127.0.0.1:8000
 
 # Set Sorl Thumbnailer to png to preserve transparent backgrounds
 THUMBNAIL_FORMAT = 'PNG'
