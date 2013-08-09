@@ -118,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'mezzanine.core.request.CurrentRequestMiddleware',
@@ -126,7 +127,6 @@ MIDDLEWARE_CLASSES = (
     'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
     'mezzanine.pages.middleware.PageMiddleware',
     #'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -171,10 +171,10 @@ INSTALLED_APPS = (
     'scss',
     'sorl.thumbnail',
     'south',
-    'cachebuster',
     
     'debug_toolbar',
     
+    'slideshow',
     'test_form',
 )
 
@@ -195,7 +195,7 @@ ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 TESTING = False
 GRAPPELLI_INSTALLED = True
 
-INTERNAL_IPS = ('127.0.0.1',) #C9 detected 127.0.0.1:8000
+INTERNAL_IPS = ('127.0.0.1:8000',) #C9 detected 127.0.0.1:8000
 
 # Set Sorl Thumbnailer to png to preserve transparent backgrounds
 THUMBNAIL_FORMAT = 'PNG'
@@ -216,6 +216,25 @@ COMPRESS_PRECOMPILERS = (
      ' '.join(['-I "%s"' % d for d in SCSS_IMPORTS])
      ),
 )
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
+
+def custom_show_toolbar(request):
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

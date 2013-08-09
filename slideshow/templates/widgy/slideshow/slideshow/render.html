@@ -1,0 +1,10 @@
+{% load widgy_tags %}
+<div class="cycle-slideshow"
+    data-cycle-timeout={{ self.get_delay_milliseconds }}
+    data-cycle-caption-template="{% templatetag openvariable %}alt{% templatetag closevariable %}">
+        <div class="cycle-caption"></div>
+        
+        {% for child in self.get_children %}
+            {% render child %}
+        {% endfor %}
+    </div>
