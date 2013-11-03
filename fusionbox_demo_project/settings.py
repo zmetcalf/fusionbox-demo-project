@@ -149,7 +149,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    
+
     'mezzanine.boot',
     'mezzanine.conf',
     'mezzanine.core',
@@ -158,12 +158,14 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'filebrowser_safe',
     'grappelli_safe',
-    
+    'argonauts',
+
     'widgy',
     'widgy.contrib.page_builder',
     'widgy.contrib.form_builder',
     'widgy.contrib.widgy_mezzanine',
-    
+    'widgy.contrib.review_queue',
+
     'filer',
     'easy_thumbnails',
     'compressor',
@@ -171,9 +173,10 @@ INSTALLED_APPS = (
     'scss',
     'sorl.thumbnail',
     'south',
-    
+
     'debug_toolbar',
-    
+    'require',
+
     'slideshow',
     'test_form',
 )
@@ -195,7 +198,7 @@ ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 TESTING = False
 GRAPPELLI_INSTALLED = True
 
-INTERNAL_IPS = ('127.0.0.1:8000',) #C9 detected 127.0.0.1:8000
+INTERNAL_IPS = ('127.0.0.1:8000',) 
 
 # Set Sorl Thumbnailer to png to preserve transparent backgrounds
 THUMBNAIL_FORMAT = 'PNG'
@@ -233,8 +236,13 @@ def custom_show_toolbar(request):
     return True
 
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar
+    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+    'INTERCEPT_REDIRECTS': False
 }
+
+REQUIRE_BUILD_PROFILE = 'widgy.build.js'
+REQUIRE_BASE_URL = 'widgy/js'
+STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
