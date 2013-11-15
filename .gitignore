@@ -10,4 +10,5 @@ local_settings.py
 /django-widgy
 /media
 /mezzanine
+/static/CACHE
 demo_sql

@@ -1,6 +1,7 @@
 # Django settings for fusionbox_demo_project project.
 import imp
 import os.path
+import sys
 
 from mezzanine.utils.conf import set_dynamic_settings
 
@@ -8,6 +9,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+
+sys.path.append('../django-widgy') # Place django widgy on the same level as this project
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -169,7 +172,6 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
     'compressor',
-    'fusionbox.core',
     'scss',
     'sorl.thumbnail',
     'south',
@@ -177,7 +179,6 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'require',
 
-    'slideshow',
     'test_form',
 )
 
@@ -198,7 +199,7 @@ ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 TESTING = False
 GRAPPELLI_INSTALLED = True
 
-INTERNAL_IPS = ('127.0.0.1:8000',) 
+INTERNAL_IPS = ('127.0.0.1:8000',)
 
 # Set Sorl Thumbnailer to png to preserve transparent backgrounds
 THUMBNAIL_FORMAT = 'PNG'
