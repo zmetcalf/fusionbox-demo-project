@@ -1,7 +1,6 @@
 # Django settings for fusionbox_demo_project project.
 import imp
 import os.path
-import sys
 
 from mezzanine.utils.conf import set_dynamic_settings
 
@@ -9,8 +8,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-
-sys.path.append('../django-widgy') # Place django widgy on the same level as this project
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -180,6 +177,7 @@ INSTALLED_APPS = (
     'require',
 
     'test_form',
+    'slideshow',
 )
 
 ADMIN_MENU_ORDER = [
