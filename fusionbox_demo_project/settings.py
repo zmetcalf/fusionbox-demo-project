@@ -178,6 +178,7 @@ INSTALLED_APPS = (
 
     'test_form',
     'slideshow',
+    'fusionbox_demo_project',
 )
 
 ADMIN_MENU_ORDER = [
