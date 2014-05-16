@@ -8,6 +8,10 @@ widgy.unregister(FormInput)
 
 @widgy.register
 class FormInput(FormInput):
+
+    class Meta:
+        proxy = True
+
     @property
     def widget(self):
         attrs = {
