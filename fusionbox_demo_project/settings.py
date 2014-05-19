@@ -178,7 +178,9 @@ INSTALLED_APPS = (
 
     'test_form',
     'slideshow',
-    'fusionbox_demo_project',
+    # 'fusionbox_demo_project',
+    'widgy_blog',
+
 )
 
 ADMIN_MENU_ORDER = [

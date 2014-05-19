@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     # widgy frontend
     url(r'^widgy/', include('widgy.contrib.widgy_mezzanine.urls')),
     url(r'^', include('mezzanine.urls')),
+    url(r'^blog/', include('widgy_blog.urls')),
     url(r'^$', 'mezzanine.pages.views.page', {'slug': '/'}, name='home'),
     # url('^form/(?P<form_node_pk>[^/]*)/$', TestView.as_view()),
 )
