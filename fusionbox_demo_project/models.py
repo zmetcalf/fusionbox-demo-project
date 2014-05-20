@@ -11,5 +11,7 @@ class FormInput(FormInput):
         proxy = True
 
     @property
-    def widget_input_class(self):
-        return 'form-control'
+    def widget_attrs(self):
+        attrs = super(FormInput, self).widget_attrs
+        attrs['class'] = 'form-control'
+        return attrs
