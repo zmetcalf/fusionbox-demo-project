@@ -5,13 +5,17 @@ from widgy.contrib.form_builder.models import FormInput
 widgy.unregister(FormInput)
 
 @widgy.register
-class FormInput(FormInput):
+class BootstrapFormInput(FormInput):
 
     class Meta:
         proxy = True
+        verbose_name = 'Form Input'
+        verbose_name_plural = 'Form Inputs'
 
     @property
     def widget_attrs(self):
-        attrs = super(FormInput, self).widget_attrs
+        attrs = super(BootstrapFormInput, self).widget_attrs
         attrs['class'] = 'form-control'
+        if self.type == 'date':
+            attrs['class'] += ' date auto-kal'
         return attrs
