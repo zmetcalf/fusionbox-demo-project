@@ -7,6 +7,8 @@ from mezzanine.utils.conf import set_dynamic_settings
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+ALLOWED_HOSTS = []
+
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 ADMINS = (
@@ -126,7 +128,7 @@ MIDDLEWARE_CLASSES = (
     'mezzanine.core.middleware.TemplateForHostMiddleware',
     'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
     'mezzanine.pages.middleware.PageMiddleware',
-    #'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
+    'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -165,6 +167,7 @@ INSTALLED_APPS = (
     'widgy.contrib.form_builder',
     'widgy.contrib.widgy_mezzanine',
     'widgy.contrib.review_queue',
+    'widgy.contrib.urlconf_include',
 
     'filer',
     'easy_thumbnails',
@@ -217,9 +220,7 @@ SCSS_IMPORTS = (
 
 COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'python -mscss.tool -C %s' %
-     ' '.join(['-I "%s"' % d for d in SCSS_IMPORTS])
-     ),
+    ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
 )
 
 DEBUG_TOOLBAR_PANELS = (
@@ -277,3 +278,11 @@ LOGGING = {
 # at the very bottom of settings
 
 set_dynamic_settings(globals())
+
+ADD_PAGE_ORDER = (
+    'widgy_mezzanine.WidgyPage',
+)
+
+URLCONF_INCLUDE_CHOICES = (
+    ('blog.urls', 'Blog'),
+)
