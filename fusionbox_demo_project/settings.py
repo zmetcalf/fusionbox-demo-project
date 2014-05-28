@@ -5,7 +5,7 @@ import os.path
 from mezzanine.utils.conf import set_dynamic_settings
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -75,14 +75,6 @@ STATIC_ROOT = os.path.join(PROJECT_PATH, '..', "static")
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'public'),
-)
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -115,12 +107,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'mezzanine.core.request.CurrentRequestMiddleware',
@@ -211,41 +203,21 @@ THUMBNAIL_FORMAT = 'PNG'
 # Set the site title in Grappelli
 GRAPPELLI_ADMIN_TITLE = 'Fusionbox Demo Project Admin Center'
 
-WIDGY_ROOT = imp.find_module('widgy')[1]
-
-SCSS_IMPORTS = (
-    os.path.join(STATICFILES_DIRS[0], 'css'),
-    os.path.join(WIDGY_ROOT, 'static', 'widgy', 'css'),
-)
-
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
 )
 
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
-
-def custom_show_toolbar(request):
-    return True
-
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
-    'INTERCEPT_REDIRECTS': False
-}
-
 REQUIRE_BUILD_PROFILE = 'widgy.build.js'
 REQUIRE_BASE_URL = 'widgy/js'
 STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+    '::1',
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
