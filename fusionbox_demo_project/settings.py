@@ -214,6 +214,10 @@ STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
+DEBUG_TOOLBAR_CONFIG = {
+    'RENDER_PANELS': True
+}
+
 INTERNAL_IPS = (
     '127.0.0.1',
     '::1',
