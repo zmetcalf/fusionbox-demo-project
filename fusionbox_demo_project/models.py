@@ -15,7 +15,5 @@ class BootstrapFormInput(FormInput):
     @property
     def widget_attrs(self):
         attrs = super(BootstrapFormInput, self).widget_attrs
-        attrs['class'] = 'form-control'
-        if self.type == 'date':
-            attrs['class'] += ' date auto-kal'
+        attrs['class'] = attrs.get('class', '') + ' form-control'
         return attrs
