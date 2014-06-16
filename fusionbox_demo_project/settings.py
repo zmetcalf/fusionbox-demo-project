@@ -203,7 +203,7 @@ THUMBNAIL_FORMAT = 'PNG'
 # Set the site title in Grappelli
 GRAPPELLI_ADMIN_TITLE = 'Fusionbox Demo Project Admin Center'
 
-COMPRESS_ENABLED = False
+COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
 )
