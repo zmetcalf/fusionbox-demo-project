@@ -104,6 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
     'mezzanine.conf.context_processors.settings',
+    'responsive.context_processors.device_info',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -121,6 +122,7 @@ MIDDLEWARE_CLASSES = (
     'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
     'mezzanine.pages.middleware.PageMiddleware',
     'widgy.contrib.urlconf_include.middleware.PatchUrlconfMiddleware',
+    'responsive.middleware.DeviceInfoMiddleware',
 )
 
 ROOT_URLCONF = 'fusionbox_demo_project.urls'
@@ -175,7 +177,7 @@ INSTALLED_APPS = (
     'slideshow',
     'fusionbox_demo_project',
     'widgy_blog',
-
+    'adaptive',
 )
 
 ADMIN_MENU_ORDER = [
