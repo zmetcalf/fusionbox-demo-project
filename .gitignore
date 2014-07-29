@@ -11,4 +11,5 @@ local_settings.py
 /media
 /mezzanine
 /static/CACHE
+/static/scss
 demo_sql
